@@ -25,8 +25,9 @@ const robotSchema = new Schema({
     creationDate: {
       type: Number,
       required: true,
+    },
   },
-}}),
+});
 
 const Robot = model("robot", robotSchema, "robots");
 
