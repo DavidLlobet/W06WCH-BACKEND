@@ -22,4 +22,22 @@ const getRobotById = async (req, res, next) => {
   }
 };
 
-module.exports = { getRobots, getRobotById };
+const deleteRobotById = async (req, res, next) => {
+  const { idRobot } = req.params;
+  try {
+    const deletedRobot = await Robot.findByIdAndDelete(idRobot);
+    if (deletedRobot) {
+      res.json(deletedRobot);
+    } else {
+      const error = new Error("Robot to delete not found");
+      error.code = 404;
+      next(error);
+    }
+  } catch (error) {
+    error.message = "Cannot delete robot";
+    error.code = 400;
+    next(error);
+  }
+};
+
+module.exports = { getRobots, getRobotById, deleteRobotById };

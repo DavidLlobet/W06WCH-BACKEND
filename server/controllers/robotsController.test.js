@@ -1,5 +1,9 @@
 const Robot = require("../../database/models/robots");
-const { getRobots, getRobotById } = require("./robotsController");
+const {
+  getRobots,
+  getRobotById,
+  deleteRobotById,
+} = require("./robotsController");
 
 jest.mock("../../database/models/robots");
 
@@ -87,6 +91,70 @@ describe("Given a getRobotById function", () => {
         };
 
         await getRobotById(req, res);
+
+        expect(res.json).toHaveBeenCalledWith(MechaKoopa);
+      });
+    });
+  });
+});
+
+describe("Given a deleteRobotById function", () => {
+  describe("When it receives a request with an id 1, a res object and a next function", () => {
+    test("Then it should invoke Robot.findByIdAndDelete with a 1", async () => {
+      Robot.findByIdAndDelete = jest.fn().mockResolvedValue({});
+      const idRobot = 1;
+
+      const req = {
+        params: {
+          idRobot,
+        },
+      };
+      const res = {
+        json: () => {},
+      };
+      const next = () => {};
+
+      await deleteRobotById(req, res, next);
+
+      expect(Robot.findByIdAndDelete).toHaveBeenCalledWith(idRobot);
+    });
+    describe("And Robot.deleteById rejects", () => {
+      test("Then it should invoke next function with the error rejected", async () => {
+        const error = {};
+        Robot.findByIdAndDelete = jest.fn().mockRejectedValue(error);
+        const req = {
+          params: {
+            idRobot: 0,
+          },
+        };
+        const res = {};
+        const next = jest.fn();
+
+        await deleteRobotById(req, res, next);
+
+        expect(next).toHaveBeenCalledWith(error);
+        expect(error).toHaveProperty("code");
+        expect(error.code).toBe(400);
+      });
+    });
+    describe("And Robot.findByIdAndDelete resolves to Mecha Koopa", () => {
+      test("Then it should invoke res.json with Mecha Koopa", async () => {
+        const idRobot = "618579be9712904c2b990e1";
+        const MechaKoopa = {
+          idRobot,
+          name: "Mecha Koopa",
+        };
+        Robot.findByIdAndDelete = jest.fn().mockResolvedValue(MechaKoopa);
+        const req = {
+          params: {
+            idRobot,
+          },
+        };
+        const res = {
+          json: jest.fn(),
+        };
+
+        await deleteRobotById(req, res);
 
         expect(res.json).toHaveBeenCalledWith(MechaKoopa);
       });
