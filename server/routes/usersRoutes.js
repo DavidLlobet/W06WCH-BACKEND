@@ -11,7 +11,6 @@ router.get("/", async (req, res, next) => {
 
     password: await bcrypt.hash("contra", 10),
   });
-  console.log("caca");
   res.json("Papanatas");
 });
 

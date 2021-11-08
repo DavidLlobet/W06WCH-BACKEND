@@ -6,6 +6,7 @@ const cors = require("cors");
 const { notFoundErrorHandler, generalErrorHandler } = require("./error");
 const robotsRoutes = require("./routes/robotsRoutes");
 const usersRoutes = require("./routes/usersRoutes");
+const loginRoutes = require("./routes/loginRoutes");
 
 const app = express();
 app.use(cors());
@@ -21,7 +22,7 @@ const initializeServer = (port) => {
     }
   });
 };
-
+console.log("si");
 app.use(morgan("dev"));
 app.use(express.json());
 
@@ -31,6 +32,5 @@ app.use("/user/login", loginRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(generalErrorHandler);
-app.use("/user/login", loginRoutes);
 
 module.exports = initializeServer;
