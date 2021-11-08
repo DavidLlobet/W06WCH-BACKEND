@@ -22,7 +22,6 @@ const initializeServer = (port) => {
     }
   });
 };
-console.log("si");
 app.use(morgan("dev"));
 app.use(express.json());
 
