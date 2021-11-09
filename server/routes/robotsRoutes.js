@@ -1,11 +1,12 @@
 const express = require("express");
+require("dotenv").config();
+
 const {
   getRobots,
   getRobotById,
   deleteRobotById,
 } = require("../controllers/robotsController");
 
-require("dotenv").config();
 const router = express.Router();
 
 router.get("/", getRobots);

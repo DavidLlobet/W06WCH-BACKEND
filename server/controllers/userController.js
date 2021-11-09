@@ -1,13 +1,10 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const User = require("../../database/models/users");
 
 const loginUser = async (req, res, next) => {
-  console.log("hola");
-
   const { username, password } = req.body;
-
   const user = await User.findOne({ username });
   if (!user) {
     const error = new Error("Not found");
@@ -35,4 +32,4 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = loginUser;
+module.exports = { loginUser };
