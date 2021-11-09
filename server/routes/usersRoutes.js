@@ -1,7 +1,9 @@
 const express = require("express");
-const User = require("../../database/models/users");
-const router = express.Router();
 const bcrypt = require("bcrypt");
+
+const User = require("../../database/models/users");
+
+const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   await User.create({
