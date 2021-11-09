@@ -2,7 +2,7 @@ const debug = require("debug")("robots:database");
 const chalk = require("chalk");
 const mongoose = require("mongoose");
 
-const connectDB = (env) => {
+const connectDB = () => {
   mongoose.connect(process.env.MONGODB_STRING, (error) => {
     if (error) {
       debug(chalk.red("No se ha podido iniciar la base de datos."));
